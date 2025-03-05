@@ -1,11 +1,10 @@
 from src.dal.DAO.base_DAO import BaseDAO, Union, Tuple, List
-
-
-class VacationsDAO(BaseDAO):
+import psycopg as pg
+class CountriesDAO(BaseDAO):
     def __init__(self, connection_details: str):
         self.connection_details = connection_details
-        self.table_name = 'vacations'
-        self.id_column = 'vacation_id'
+        self.table_name = 'countries'
+        self.id_column = 'country_id'
 
     def update(self, columns: Union[tuple, str], values: Union[tuple, str], vacation_id: str):
         self.base_update(self.table_name, columns, values,

@@ -1,2 +1,10 @@
-class User:
-    def __init__(self, user_id, first_name, last_name, user_email
+from dataclasses import dataclass
+
+
+@dataclass
+class UserDTO:
+    user_id: str
+    first_name: str
+    last_name: str
+    user_email: str
+    password: str
