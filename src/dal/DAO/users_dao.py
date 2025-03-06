@@ -46,3 +46,11 @@ class UsersDAO(BaseDAO):
     def print_user_by_email_and_password(self, email, password):
         query = f'SELECT * FROM {self.table_name} WHERE email = %s AND password = %s'
         self.base_connect_and_change_table(query, (email, password))
+
+    def check_if_email_exists(self, email:str):
+        query = f'SELECT * FROM {self.table_name} WHERE  email = %s'
+        results = self.base_connect_and_change_table(query,email)
+        if results:
+            return True
+        else:
+            return False

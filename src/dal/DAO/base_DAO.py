@@ -44,6 +44,7 @@ class BaseDAO:
                         results = cursor.fetchall()
                         for result in results:
                             print(result)
+                        return results
         except pg.DatabaseError as e:
             print("Database error: {}".format(e))
         except Exception as e:
