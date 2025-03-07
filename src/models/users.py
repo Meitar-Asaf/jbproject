@@ -8,3 +8,4 @@ class UserDTO:
     last_name: str
     user_email: str
     password: str
+    role_id: str
