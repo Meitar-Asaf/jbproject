@@ -1,5 +1,5 @@
 from dal.DAO import countries_dao, roles_dao, users_dao, vacations_dao
-from models import countries_dto, roles_dto, users, likes_dto, vacations_dto
+from models import countries_dto, roles_dto, likes_dto, users_dto, vacations_dto
 import psycopg as pg
 import re
 
@@ -14,7 +14,7 @@ class UserFacade:
 
 
     def register_user(self, user_id: str, first_name: str, last_name: str, email: str, password: str, role_id: str):
-        user_dto = users.UserDTO(user_id, first_name, last_name, email, password, role_id)
+        user_dto = users_dto.UserDTO(user_id, first_name, last_name, email, password, role_id)
         if not re.match(r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$", user_dto.user_email):
             raise ValueError("Invalid email format")
         
@@ -35,6 +35,6 @@ class UserFacade:
     def log_in(self, email, password):
         if not email or not password:
             raise ValueError("All fields are required.")
-        if self.check_password_contains_more_than_3(password)
-        if
+        self.check_password_contains_more_than_3(password)
+
         
