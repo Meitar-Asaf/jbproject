@@ -5,7 +5,7 @@ CREATE TABLE roles(role_id SERIAL PRIMARY KEY, role_name VARCHAR(6) UNIQUE);
 CREATE TABLE users(user_id INT PRIMARY KEY, first_name VARCHAR(20), last_name VARCHAR(20), email VARCHAR(50) UNIQUE NOT NULL, password VARCHAR(20) NOT NULL, role_id INT REFERENCES roles(role_id));
 CREATE TABLE countries(country_id INT UNIQUE PRIMARY KEY, country_name VARCHAR(50) UNIQUE NOT NULL);
 CREATE TABLE vacations(vacation_id INT UNIQUE PRIMARY KEY, country_id INT REFERENCES countries(country_id), vacation_description TEXT, beginning_date DATE, end_date DATE, price INT, picture_file_name TEXT);
-CREATE TABLE likes(user_id INT REFERENCES users(user_id), vacation_id INT REFERENCES vacations(vacation_id));
+CREATE TABLE likes(user_id INT REFERENCES users(user_id) ON DELETE CASCADE, vacation_id INT REFERENCES vacations(vacation_id) ON DELETE CASCADE);
 INSERT INTO roles(role_name) VALUES('admin');
 INSERT INTO roles(role_name) VALUES('user');
 INSERT INTO users(user_id, first_name, last_name, email, password, role_id) VALUES(1, 'Asaf', 'Lotz', 'asaflotz@gmail.com',4567889,1);

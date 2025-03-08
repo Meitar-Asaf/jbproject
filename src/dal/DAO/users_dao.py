@@ -6,11 +6,11 @@ class UsersDAO(BaseDAO):
     def __init__(self, connection_details: str):
         self.connection_details = connection_details
         self.table_name = 'users'
-        self.id_column = 'user_id'
+        self.user_id_column = 'user_id'
 
     def update(self, columns: Union[tuple, str], values: Union[tuple, str], vacation_id: str):
         self.base_update(self.table_name, columns, values,
-                         self.id_column, vacation_id)
+                         self.user_id_column, vacation_id)
 
     def add(self, columns: Union[tuple, str], values: Union[tuple, str]):
         try:
@@ -29,19 +29,17 @@ class UsersDAO(BaseDAO):
         self.base_print_all(self.table_name)
 
     def delete_by_id(self, vacation_id: str):
-        self.base_delete_by_id(self.table_name, self.id_column, vacation_id)
+        self.base_delete_by_id(self.table_name, self.user_id_column, vacation_id)
 
     def print_wanted_column_value_by_id(self, column_name: str, vacation_id: str):
         self.base_print_wanted_column_value_by_id(
-            self.table_name, column_name, self.id_column, vacation_id)
+            self.table_name, column_name, self.user_id_column, vacation_id)
 
-    def like_vacation(self, user_id, vacation_id: str):
-        self.base_add('likes', (self.id_column, 'vacation_id'),
-                      (user_id, vacation_id))
+    def like_vacation(self, user_id:str, vacation_id:str):
+        self.base_add(self.table_name, ('vacation_id',self.user_id_column), (vacation_id, user_id))
 
-    def unlike_vacation(self, user_id, vacation_id: str):
-        self.base_delete_by_id(
-            'likes', ('vacation_id', self.id_column), (vacation_id, user_id))
+    def unlike_vacation(self, user_id:str, vacation_id: str):
+        self.base_delete_by_id('likes', ('vacation_id', self.user_id_column), (vacation_id, user_id))
 
     def print_user_by_email_and_password(self, email, password):
         query = f'SELECT * FROM {self.table_name} WHERE email = %s AND password = %s'
