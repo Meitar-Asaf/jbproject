@@ -8,6 +8,8 @@ class UsersDAO(BaseDAO):
         self.table_name = 'users'
         self.user_id_column = 'user_id'
 
+        
+
     def update(self, columns: Union[tuple, str], values: Union[tuple, str], vacation_id: str):
         self.base_update(self.table_name, columns, values,
                          self.user_id_column, vacation_id)
@@ -28,22 +30,24 @@ class UsersDAO(BaseDAO):
     def print_all(self):
         self.base_print_all(self.table_name)
 
-    def delete_by_id(self, vacation_id: str):
-        self.base_delete_by_id(self.table_name, self.user_id_column, vacation_id)
+    def delete_by_id(self, user_id: str):
+        self.base_delete_by_id(self.table_name, self.user_id_column, user_id)
 
-    def print_wanted_column_value_by_id(self, column_name: str, vacation_id: str):
+    def print_wanted_column_value_by_id(self, column_name: str, user_id: str):
         self.base_print_wanted_column_value_by_id(
-            self.table_name, column_name, self.user_id_column, vacation_id)
+            self.table_name, column_name, self.user_id_column, user_id)
 
     def like_vacation(self, user_id:str, vacation_id:str):
-        self.base_add(self.table_name, ('vacation_id',self.user_id_column), (vacation_id, user_id))
+        self.base_add('likes', (self.user_id_column, 'vacation_id'), (user_id, vacation_id))
 
     def unlike_vacation(self, user_id:str, vacation_id: str):
-        self.base_delete_by_id('likes', ('vacation_id', self.user_id_column), (vacation_id, user_id))
+        if vacation_id == None:
+            return self.base_delete_by_id('likes', self.user_id_column, user_id)
+        return self.base_delete_by_id('likes', ('vacation_id', ' AND ' + self.user_id_column), (vacation_id, user_id))
 
     def print_user_by_email_and_password(self, email, password):
         query = f'SELECT * FROM {self.table_name} WHERE email = %s AND password = %s'
-        self.base_connect_and_change_table(query, (email, password))
+        return self.base_connect_and_change_table(query, (email, password))
 
     def check_if_email_exists(self, email:str):
         query = f'SELECT * FROM {self.table_name} WHERE  email = %s'
@@ -52,3 +56,8 @@ class UsersDAO(BaseDAO):
             return True
         else:
             return False
+        
+    def likes_print_wanted_column_value_by_id(self, user_id: str, vacation_id):
+        
+        return self.base_print_wanted_column_value_by_id(
+            'likes', 'user_id, vacation_id', (self.user_id_column ,' AND vacation_id'), (user_id ,  vacation_id))

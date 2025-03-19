@@ -1,4 +1,5 @@
-﻿
+
+
 DROP SCHEMA public CASCADE;
 CREATE SCHEMA public;
 CREATE TABLE roles(role_id SERIAL PRIMARY KEY, role_name VARCHAR(6) UNIQUE);
