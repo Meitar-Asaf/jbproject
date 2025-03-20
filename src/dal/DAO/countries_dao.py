@@ -1,8 +1,9 @@
-# Internal imports
-from src.dal.DAO.base_DAO import BaseDAO, Union, Tuple, List
 
-# External imports
-import psycopg as pg
+
+
+from src.dal.DAO.base_DAO import BaseDAO, Union, Tuple, List, Any, Optional
+
+
 
 
 class CountriesDAO(BaseDAO):
@@ -26,51 +27,55 @@ class CountriesDAO(BaseDAO):
         self.table_name = 'countries'
         self.id_column = 'country_id'
 
-    def update(self, columns: Union[tuple, str], values: Union[tuple, str], vacation_id: str):
+    def update(self, columns: Union[Tuple[str, ...], str], values: Union[Tuple[Any, ...], str], country_id: str):
         """
         Updates a specific country record in the database.
 
         Args:
-            columns (Union[tuple, str]): The columns to update.
-            values (Union[tuple, str]): The new values for the columns.
-            vacation_id (str): The unique identifier of the country record to update.
+            columns (Union[Tuple[str, ...], str]): The columns to update, either as a tuple or a single string.
+            values (Union[Tuple[Any, ...], str]): The new values for the columns, either as a tuple or a single value.
+            country_id (str): The unique identifier of the country record to update.
         """
-        self.base_update(self.table_name, columns, values, self.id_column, vacation_id)
+        self.base_update(self.table_name, columns, values,
+                         self.id_column, country_id)
 
-    def add(self, columns: Union[tuple, str], values: Union[tuple, str]):
+    def add(self, columns: Union[Tuple[str, ...], str], values: Union[Tuple[Any, ...], str]):
         """
         Inserts a new country record into the database.
 
         Args:
-            columns (Union[tuple, str]): The columns for which values will be inserted.
-            values (Union[tuple, str]): The values to insert into the specified columns.
+            columns (Union[Tuple[str, ...], str]): The columns for which values will be inserted, as a tuple or single string.
+            values (Union[Tuple[Any, ...], str]): The values to insert into the specified columns, as a tuple or single value.
         """
         self.base_add(self.table_name, columns, values)
 
     def print_all(self):
         """
-        Prints all country records from the database.
+        Retrieves all country records from the database.
+
+        Returns:
+            Optional[List[Tuple[Any, ...]]]: A list of tuples representing the country records.
         """
         self.base_print_all(self.table_name)
 
-    def delete_by_id(self, vacation_id: str):
+    def delete_by_id(self, country_id: str):
         """
         Deletes a country record from the database by its unique identifier.
 
         Args:
-            vacation_id (str): The unique identifier of the country record to delete.
+            country_id (str): The unique identifier of the country record to delete.
         """
-        self.base_delete_by_id(self.table_name, self.id_column, vacation_id)
+        self.base_delete_by_id(self.table_name, self.id_column, country_id)
 
-    def print_wanted_column_value_by_id(self, column_name: str, vacation_id: str):
+    def print_wanted_column_value_by_id(self, column_name: str, country_id: str) -> Optional[List[Tuple[Any, ...]]]:
         """
         Retrieves specific column values for a country record by its unique identifier.
 
         Args:
             column_name (str): The name of the column(s) to retrieve.
-            vacation_id (str): The unique identifier of the country record.
+            country_id (str): The unique identifier of the country record.
 
         Returns:
-            Optional[List[Tuple]]: A list of tuples representing the fetched column values.
+            Optional[List[Tuple[Any, ...]]]: A list of tuples representing the fetched column values.
         """
-        self.base_print_wanted_column_value_by_id(self.table_name, column_name, self.id_column, vacation_id)
+        return self.base_print_wanted_column_value_by_id(self.table_name, column_name, self.id_column, country_id)

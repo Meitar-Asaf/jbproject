@@ -1,4 +1,6 @@
-from src.dal.DAO.base_DAO import BaseDAO, Union, Tuple, List
+
+
+from src.dal.DAO.base_DAO import BaseDAO, Union, Tuple, List, Any, Optional
 
 
 class VacationsDAO(BaseDAO):

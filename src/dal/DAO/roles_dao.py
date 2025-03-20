@@ -1,8 +1,8 @@
-# Internal imports
-from src.dal.DAO.base_DAO import BaseDAO, Union, Tuple, List
 
-# External imports
-import psycopg as pg
+
+
+from src.dal.DAO.base_DAO import BaseDAO, Union, Tuple, List, Any, Optional
+
 
 
 class RolesDAO(BaseDAO):
@@ -26,51 +26,55 @@ class RolesDAO(BaseDAO):
         self.table_name = 'roles'
         self.id_column = 'role_id'
 
-    def update(self, columns: Union[tuple, str], values: Union[tuple, str], vacation_id: str):
+    def update(self, columns: Union[Tuple[str, ...], str], values: Union[Tuple[Any, ...], str], role_id: str):
         """
         Updates a specific role record in the database.
 
         Args:
-            columns (Union[tuple, str]): The columns to update.
-            values (Union[tuple, str]): The new values for the columns.
-            vacation_id (str): The unique identifier of the role record to update.
+            columns (Union[Tuple[str, ...], str]): The columns to update, either as a tuple or a single string.
+            values (Union[Tuple[Any, ...], str]): The new values for the columns, either as a tuple or a single value.
+            role_id (str): The unique identifier of the role record to update.
         """
-        self.base_update(self.table_name, columns, values, self.id_column, vacation_id)
+        self.base_update(self.table_name, columns, values, self.id_column, role_id)
 
-    def add(self, columns: Union[tuple, str], values: Union[tuple, str]):
+    def add(self, columns: Union[Tuple[str, ...], str], values: Union[Tuple[Any, ...], str]):
         """
         Inserts a new role record into the database.
 
         Args:
-            columns (Union[tuple, str]): The columns for which values will be inserted.
-            values (Union[tuple, str]): The values to insert into the specified columns.
+            columns (Union[Tuple[str, ...], str]): The columns for which values will be inserted, as a tuple or single string.
+            values (Union[Tuple[Any, ...], str]): The values to insert into the specified columns, as a tuple or single value.
         """
         self.base_add(self.table_name, columns, values)
 
-    def print_all(self):
+    def print_all(self) -> Optional[List[Tuple[Any, ...]]]:
         """
-        Prints all role records from the database.
+        Retrieves all role records from the database.
+        
+        Returns:
+            Optional[List[Tuple[Any, ...]]]: A list of tuples representing the role records.
         """
-        self.base_print_all(self.table_name)
+        return self.base_print_all(self.table_name)
 
-    def delete_by_id(self, vacation_id: str):
+    def delete_by_id(self, role_id: str):
         """
         Deletes a role record from the database by its unique identifier.
 
         Args:
-            vacation_id (str): The unique identifier of the role record to delete.
+            role_id (str): The unique identifier of the role record to delete.
         """
-        self.base_delete_by_id(self.table_name, self.id_column, vacation_id)
+        self.base_delete_by_id(self.table_name, self.id_column, role_id)
 
-    def print_wanted_column_value_by_id(self, column_name: str, vacation_id: str):
+    def print_wanted_column_value_by_id(self, column_name: str, role_id: str) -> Optional[List[Tuple[Any, ...]]]:
         """
         Retrieves specific column values for a role record by its unique identifier.
 
         Args:
             column_name (str): The name of the column(s) to retrieve.
-            vacation_id (str): The unique identifier of the role record.
+            role_id (str): The unique identifier of the role record.
 
         Returns:
-            Optional[List[Tuple]]: A list of tuples representing the fetched column values.
+            Optional[List[Tuple[Any, ...]]]: A list of tuples representing the fetched column values.
         """
-        self.base_print_wanted_column_value_by_id(self.table_name, column_name, self.id_column, vacation_id)
+        return self.base_print_wanted_column_value_by_id(self.table_name, column_name, self.id_column, role_id)
+
